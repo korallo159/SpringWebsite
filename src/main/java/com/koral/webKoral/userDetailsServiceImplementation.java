@@ -1,5 +1,6 @@
 package com.koral.webKoral;
 
+import com.koral.webKoral.Repo.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

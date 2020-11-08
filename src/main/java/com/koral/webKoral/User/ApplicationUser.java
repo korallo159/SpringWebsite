@@ -1,4 +1,4 @@
-package com.koral.webKoral;
+package com.koral.webKoral.User;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
