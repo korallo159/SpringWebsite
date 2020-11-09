@@ -1,30 +1,54 @@
 package com.koral.webKoral.GUI;
 import com.koral.webKoral.CurrencyApi;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.textfield.TextField;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Route("kantor")
-@CssImport("./style.css")
+@CssImport(value="./style.css", themeFor = "vaadin-text-field")
 public class CalculatorGUI extends VerticalLayout {
 
     public CalculatorGUI(){
-        TextField textField = new TextField("Wpisz walute.");
-        TextField textField1 = new TextField("Wpisz przeliczana walute");
+        VerticalLayout Vertical = new VerticalLayout();
+        Set items = CurrencyApi.getBases();
+        ComboBox<String> comboBoxBase = new ComboBox<>();
+        comboBoxBase.setItems(items);
+        comboBoxBase.setLabel("Waluta którą chcesz");
+        add(comboBoxBase);
+
+        ComboBox<String> comboBoxExchange = new ComboBox<>();
+        comboBoxExchange.setItems(items);
+        comboBoxExchange.setLabel("Wymieniana waluta");
+        add(comboBoxExchange);
+
+        NumberField numberField = new NumberField("Ilość");
+        numberField.setId("numberfield");
+        add(numberField);
+
         Label label = new Label("Wynik:");
-        Button button = new Button("Przelicz");
-        button.addClickListener(buttonClickEvent -> {
-          Double result = CurrencyApi.currentsApi(textField.getValue(), textField1.getValue());
-            label.setText(result.toString());
-        });
-        add(textField);
-        add(textField1);
-        add(button);
         add(label);
+        Button button = new Button("Przelicz");
+        add(button);
+        button.addClickListener(buttonClickEvent -> {
+          Double exchange = CurrencyApi.currentsApi(comboBoxBase.getValue(), comboBoxExchange.getValue());
+            Double result = exchange * numberField.getValue();
+            label.setText(result.toString() + " " +  comboBoxBase.getValue());
+        });
+        Vertical.setHorizontalComponentAlignment(Alignment.CENTER, comboBoxBase);
+        Vertical.setHorizontalComponentAlignment(Alignment.CENTER, comboBoxExchange);
+        Vertical.setHorizontalComponentAlignment(Alignment.CENTER, button);
+        Vertical.setHorizontalComponentAlignment(Alignment.CENTER, label);
+        Vertical.setHorizontalComponentAlignment(Alignment.CENTER, numberField);
     }
 
 }
