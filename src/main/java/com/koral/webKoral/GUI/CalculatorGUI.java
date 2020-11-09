@@ -10,6 +10,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,10 +18,10 @@ import java.util.Set;
 @Route("kantor")
 @CssImport(value="./style.css", themeFor = "vaadin-text-field")
 public class CalculatorGUI extends VerticalLayout {
-
     public CalculatorGUI(){
         VerticalLayout Vertical = new VerticalLayout();
-        Set items = CurrencyApi.getBases();
+        Set items = new HashSet(CurrencyApi.getBases());
+        items.add("EUR");
         ComboBox<String> comboBoxBase = new ComboBox<>();
         comboBoxBase.setItems(items);
         comboBoxBase.setLabel("Waluta którą chcesz");

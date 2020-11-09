@@ -13,7 +13,7 @@ import java.util.*;
 
 public class CurrencyApi {
     static double result;
-    static Set bases = new HashSet();
+    static Set keySet = new HashSet();
     public static Double currentsApi(String currency, String base){
         JSONParser parser = new JSONParser();
         try{
@@ -49,13 +49,13 @@ public class CurrencyApi {
                JSONObject jsonObject = (JSONObject) parser.parse(line);
                String rates = jsonObject.get("rates").toString();
                JSONObject jsonObject1 = (JSONObject) parser.parse(rates);
-               bases = jsonObject1.keySet();
+               keySet= jsonObject1.keySet();
                br.close();
 
            }
        } catch (Exception e) {
            e.printStackTrace();
        }
-       return bases;
+       return keySet;
     }
 }

@@ -47,13 +47,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @EventListener(ApplicationReadyEvent.class)
+   /* @EventListener(ApplicationReadyEvent.class)
     public void get() {
         ApplicationUser appUserUser = new ApplicationUser("koraluser", passwordEncoder().encode("koral123"), "ROLE_USER");
         ApplicationUser appUserAdmin = new ApplicationUser("koral", passwordEncoder().encode("koral123"), "ROLE_ADMIN");
         applicationUserRepository.save(appUserUser);
         applicationUserRepository.save(appUserAdmin);
-    }
+    }*/
 
 
 }
