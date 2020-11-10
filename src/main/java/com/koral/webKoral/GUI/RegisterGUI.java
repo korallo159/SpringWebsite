@@ -3,9 +3,12 @@ package com.koral.webKoral.GUI;
 import com.koral.webKoral.Repo.ApplicationUserRepository;
 import com.koral.webKoral.User.ApplicationUser;
 import com.koral.webKoral.WebSecurityConfig;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -38,6 +41,8 @@ public class RegisterGUI extends VerticalLayout {
                 ApplicationUser appUserUser = new ApplicationUser(textFieldLogin.getValue(), this.webSecurityConfig.passwordEncoder().encode(passwordField.getValue()), "ROLE_USER", emailField.getValue());
                 this.applicationUserRepository.save(appUserUser);
                 label.setText("Zarejestrowano!");
+               Notification notification = new Notification("Użytkownik "+ textFieldLogin.getValue() + " dodany!");
+               notification.open();
             }
             else if(!passwordField.getValue().equals(passwordFieldRepeat.getValue())){
                label.setText("Hasła nie są takie same!");
