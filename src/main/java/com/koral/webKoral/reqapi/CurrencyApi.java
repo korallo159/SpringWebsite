@@ -1,4 +1,4 @@
-package com.koral.webKoral;
+package com.koral.webKoral.reqapi;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;

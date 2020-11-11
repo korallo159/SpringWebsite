@@ -1,16 +1,13 @@
 package com.koral.webKoral.GUI;
-import com.koral.webKoral.CurrencyApi;
+import com.koral.webKoral.reqapi.CurrencyApi;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 

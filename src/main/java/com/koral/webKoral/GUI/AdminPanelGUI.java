@@ -40,7 +40,10 @@ public class AdminPanelGUI extends VerticalLayout {
         verticalLayoutAdduser.add(textFieldUsername, textFieldPassword, emailField, listBoxRole, button);
         button.addClickListener(buttonClickEvent -> {
             if(this.applicationUserRepository.findByUsername(textFieldUsername.getValue()) == null) {
-                ApplicationUser appUserUser = new ApplicationUser(textFieldUsername.getValue(), this.webSecurityConfig.passwordEncoder().encode(textFieldPassword.getValue()), listBoxRole.getValue(), emailField.getValue());
+               ApplicationUser appUserUser = new ApplicationUser(textFieldUsername.getValue(),
+               this.webSecurityConfig.passwordEncoder().encode(textFieldPassword.getValue()),
+               listBoxRole.getValue(), emailField.getValue()
+                );
                 this.applicationUserRepository.save(appUserUser);
                 UI.getCurrent().getPage().reload();
             }
