@@ -1,4 +1,4 @@
-package com.koral.webKoral.GUI;
+package com.koral.webKoral.gui;
 import com.koral.webKoral.reqapi.CurrencyApi;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.CssImport;

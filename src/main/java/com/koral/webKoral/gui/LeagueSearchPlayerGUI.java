@@ -1,4 +1,4 @@
-package com.koral.webKoral.GUI;
+package com.koral.webKoral.gui;
 import com.koral.webKoral.reqapi.RiotSummonerV4;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;

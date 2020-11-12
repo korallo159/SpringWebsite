@@ -1,8 +1,7 @@
-package com.koral.webKoral.GUI;
-import com.koral.webKoral.Repo.ApplicationUserRepository;
-import com.koral.webKoral.User.ApplicationUser;
+package com.koral.webKoral.gui;
+import com.koral.webKoral.repo.ApplicationUserRepository;
+import com.koral.webKoral.model.ApplicationUser;
 import com.koral.webKoral.WebSecurityConfig;
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
@@ -16,10 +15,6 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 @Route("databasemanager")
 public class AdminPanelGUI extends VerticalLayout {

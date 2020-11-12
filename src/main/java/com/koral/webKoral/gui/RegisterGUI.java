@@ -1,33 +1,33 @@
-package com.koral.webKoral.GUI;
+package com.koral.webKoral.gui;
 
-import com.koral.webKoral.Repo.ApplicationUserRepository;
-import com.koral.webKoral.User.ApplicationUser;
-import com.koral.webKoral.WebSecurityConfig;
-import com.vaadin.flow.component.UI;
+import com.koral.webKoral.service.UserService;
+import com.koral.webKoral.model.Token;
+import com.koral.webKoral.repo.ApplicationUserRepository;
+import com.koral.webKoral.model.ApplicationUser;
+import com.koral.webKoral.repo.TokenRepo;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
-import javax.validation.constraints.Email;
+import java.util.UUID;
 
 @Route("register")
 public class RegisterGUI extends VerticalLayout {
 
     private ApplicationUserRepository applicationUserRepository;
-    private WebSecurityConfig webSecurityConfig;
+    private TokenRepo tokenRepo;
+    private UserService userService;
 
 
 
-
-    public RegisterGUI(ApplicationUserRepository applicationUserRepository, WebSecurityConfig webSecurityConfig){
+    public RegisterGUI(ApplicationUserRepository applicationUserRepository, TokenRepo tokenRepo, UserService userService){
         this.applicationUserRepository = applicationUserRepository;
-        this.webSecurityConfig = webSecurityConfig;
+        this.userService = userService;
         TextField textFieldLogin = new TextField("Podaj login");
         EmailField emailField = new EmailField("Podaj adres e-mail");
         PasswordField passwordField = new PasswordField("podaj haslo");
@@ -38,8 +38,7 @@ public class RegisterGUI extends VerticalLayout {
         button.addClickListener(buttonClickEvent -> {
             String name = textFieldLogin.getValue();
            if(passwordField.getValue().equals(passwordFieldRepeat.getValue()) && this.applicationUserRepository.findByUsername(textFieldLogin.getValue()) == null) {
-                ApplicationUser appUserUser = new ApplicationUser(textFieldLogin.getValue(), this.webSecurityConfig.passwordEncoder().encode(passwordField.getValue()), "ROLE_USER", emailField.getValue());
-                this.applicationUserRepository.save(appUserUser);
+               userService.addUser(textFieldLogin.getValue(), passwordField.getValue(), emailField.getValue(), "ROLE_USER");
                 label.setText("Zarejestrowano!");
                Notification notification = new Notification("Użytkownik "+ textFieldLogin.getValue() + " dodany!");
                notification.open();
@@ -52,6 +51,18 @@ public class RegisterGUI extends VerticalLayout {
 
         });
         add(textFieldLogin, emailField, passwordField, passwordFieldRepeat, button, label);
+
+    }
+
+    private void sendToken(ApplicationUser applicationUser) {
+        String tokenValue = UUID.randomUUID().toString();
+
+        Token token = new Token();
+        token.setValue(tokenValue);
+        token.setApplicationUser(applicationUser);
+        tokenRepo.save(token);
+        String url = "http://localhost:8080=" + tokenValue;
+
 
     }
 }

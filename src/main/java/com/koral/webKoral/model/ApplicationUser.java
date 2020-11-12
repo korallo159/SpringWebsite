@@ -1,4 +1,4 @@
-package com.koral.webKoral.User;
+package com.koral.webKoral.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,8 +20,9 @@ public class ApplicationUser implements UserDetails {
     private String email;
     private String password;
     private String role;
+    private boolean isEnabled;
 
-    public ApplicationUser(String username, String password, String role, String email) {
+    public ApplicationUser(String username, String password, String email, String role) {
         this.username = username;
         this.email = email;
         this.password = password;
@@ -96,6 +97,10 @@ public class ApplicationUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
     }
 }
