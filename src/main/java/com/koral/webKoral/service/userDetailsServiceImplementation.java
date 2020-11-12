@@ -1,5 +1,6 @@
 package com.koral.webKoral.service;
 
+import com.koral.webKoral.model.ApplicationUser;
 import com.koral.webKoral.repo.ApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +19,12 @@ public class userDetailsServiceImplementation implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return applicationUserRepository.findByUsername(username).get();
+        ApplicationUser user = applicationUserRepository.findByUsername(username);
+        if(user != null)
+        return applicationUserRepository.findByUsername(username);
+        else
+        throw new UsernameNotFoundException("User not exist with name :" +username);
+
     }
 
 }

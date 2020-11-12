@@ -5,12 +5,9 @@ import com.koral.webKoral.model.Token;
 import com.koral.webKoral.repo.ApplicationUserRepository;
 import com.koral.webKoral.repo.TokenRepo;
 import com.koral.webKoral.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 @Controller
 public class UserController {
     private TokenRepo tokenRepo;
@@ -24,12 +21,19 @@ public class UserController {
     }
 
     @GetMapping("/token")
-    public String confirm(@RequestParam String value){
-       Token byTokenValue = tokenRepo.findByValue(value).get();
-       ApplicationUser applicationUser = byTokenValue.getApplicationUser();
-       applicationUser.setEnabled(true);
-       applicationUserRepository.save(applicationUser);
-       return "login";
+    public String confirm(@RequestParam String value) {
+
+        try {
+            Token byTokenValue = tokenRepo.findByValue(value).get();
+
+            ApplicationUser applicationUser = byTokenValue.getApplicationUser();
+            applicationUser.setEnabled(true);
+            applicationUserRepository.save(applicationUser);
+            return "login";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "404";
+        }
     }
 
 }

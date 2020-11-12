@@ -8,6 +8,7 @@ import com.koral.webKoral.repo.TokenRepo;
 import org.springframework.stereotype.Controller;
 
 import javax.mail.MessagingException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -31,6 +32,7 @@ public class UserService {
         this.applicationUserRepository.save(applicationUser);
         sendToken(applicationUser);
     }
+
 
     private void sendToken(ApplicationUser applicationUser){
         String tokenValue = UUID.randomUUID().toString();

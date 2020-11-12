@@ -54,15 +54,4 @@ public class RegisterGUI extends VerticalLayout {
 
     }
 
-    private void sendToken(ApplicationUser applicationUser) {
-        String tokenValue = UUID.randomUUID().toString();
-
-        Token token = new Token();
-        token.setValue(tokenValue);
-        token.setApplicationUser(applicationUser);
-        tokenRepo.save(token);
-        String url = "http://localhost:8080=" + tokenValue;
-
-
-    }
 }

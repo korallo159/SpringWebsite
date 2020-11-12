@@ -2,6 +2,7 @@ package com.koral.webKoral.gui;
 import com.koral.webKoral.repo.ApplicationUserRepository;
 import com.koral.webKoral.model.ApplicationUser;
 import com.koral.webKoral.WebSecurityConfig;
+import com.koral.webKoral.repo.TokenRepo;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.button.Button;
@@ -20,10 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AdminPanelGUI extends VerticalLayout {
     private ApplicationUserRepository applicationUserRepository;
     private WebSecurityConfig webSecurityConfig;
+    private TokenRepo tokenRepo;
     @Autowired
-    public AdminPanelGUI(ApplicationUserRepository applicationUserRepository, WebSecurityConfig webSecurityConfig){
+    public AdminPanelGUI(ApplicationUserRepository applicationUserRepository, WebSecurityConfig webSecurityConfig, TokenRepo tokenRepo){
         this.webSecurityConfig = webSecurityConfig;
         this.applicationUserRepository = applicationUserRepository;
+        this.tokenRepo = tokenRepo;
         Accordion accordion = new Accordion();
         VerticalLayout verticalLayoutAdduser = new VerticalLayout();
         TextField textFieldUsername = new TextField("Username");
@@ -37,8 +40,9 @@ public class AdminPanelGUI extends VerticalLayout {
             if(this.applicationUserRepository.findByUsername(textFieldUsername.getValue()) == null) {
                ApplicationUser appUserUser = new ApplicationUser(textFieldUsername.getValue(),
                this.webSecurityConfig.passwordEncoder().encode(textFieldPassword.getValue()),
-               listBoxRole.getValue(), emailField.getValue()
+               emailField.getValue(), listBoxRole.getValue()
                 );
+               appUserUser.setEnabled(true);
                 this.applicationUserRepository.save(appUserUser);
                 UI.getCurrent().getPage().reload();
             }
@@ -48,12 +52,12 @@ public class AdminPanelGUI extends VerticalLayout {
             }
         });
 
-
         VerticalLayout verticalLayoutRemove = new VerticalLayout();
         NumberField numberField = new NumberField("Podaj ID");
         Button buttonDelete = new Button("Usun uzytkownika");
         verticalLayoutRemove.add(numberField,buttonDelete);
         buttonDelete.addClickListener(buttonClickEvent -> {
+            this.tokenRepo.deleteByApplicationUserId(numberField.getValue().longValue());
             this.applicationUserRepository.deleteById(numberField.getValue().longValue());
             Notification notification = new Notification("użytkownik" + textFieldUsername.getValue() + " usunięty!");
             notification.open();
